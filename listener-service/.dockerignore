@@ -1,0 +1,29 @@
+# Node modules (will be installed in image)
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Git and VCS
+.git
+.gitignore
+
+# Local env
+.env
+.env.*
+
+# Build and test output
+dist
+coverage
+*.log
+*.ts
+*.tsbuildinfo
+
+# IDE/editor folders
+.vscode
+.idea
+
+# Docker stuff
+docker-compose*
+Dockerfile*
+README.md
