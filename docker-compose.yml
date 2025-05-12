@@ -1,0 +1,35 @@
+version: '3.9'
+services:
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - '6379:6379'
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - '27017:27017'
+
+  receiver-service:
+    build: ./receiver-service
+    ports:
+      - '3001:3001'
+    depends_on:
+      - redis
+      - mongodb
+    environment:
+      - REDIS_HOST=redis
+      - MONGO_URI=mongodb://mongo:27017/pubsub
+
+  listener-service:
+    build: ./listener-service
+    ports:
+      - '3002:3002'
+    depends_on:
+      - redis
+      - mongodb
+    environment:
+      - REDIS_HOST=redis
+      - MONGO_URI=mongodb://mongo:27017/pubsub
