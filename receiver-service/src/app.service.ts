@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { createClient } from 'redis';
@@ -16,9 +16,17 @@ export class AppService {
 
   async handleData(data: any) {
     // Basic validation
-    if (!data.user || !data.class || !data.age || !data.email) {
-      throw new Error('Validation failed');
-    }
+    // if (!data.user || !data.class || !data.age || !data.email) {
+    //   throw new Error('Validation failed');
+    // }
+    if (
+  typeof data.user !== 'string' ||
+  typeof data.class !== 'string' ||
+  typeof data.age !== 'number' ||
+  typeof data.email !== 'string'
+) {
+   throw new BadRequestException('Validation failed: Invalid or missing fields');
+}
 
     const newRecord = {
       id: uuidv4(),
